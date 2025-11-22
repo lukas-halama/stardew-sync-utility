@@ -38,3 +38,40 @@ Install the utility globally using Python's package installer, `pip` (once publi
 
 ```bash
 pip install stardew-sync-utility
+
+
+### 2. PC Setup (The Automation Step)
+
+This step links your PC game files to your cloud service.
+
+| Step | Action | Command (Run as Administrator) |
+| :--- | :--- | :--- |
+| **1. Prepare** | Ensure Stardew Valley is completely closed. | |
+| **2. Run Tool** | Open **Command Prompt** or **PowerShell** by right-clicking and selecting **"Run as Administrator."** | `sdv-sync-tool` |
+| **3. Provide Path** | When prompted, enter the **ROOT PATH** to your cloud sync folder (e.g., `C:\Users\YourName\Google Drive`). | |
+
+### Detailed Example of Expected Terminal Output
+
+Below is a full example of what you should see when running the tool, assuming you provide the path to your cloud folder:
+
+```bash
+C:\WINDOWS\system32> sdv-sync-tool
+--- Stardew Valley Sync Utility Setup ---
+⚠️ WARNING: This tool MUST be run with Administrator privileges (Right-click -> Run as administrator).
+If you proceed without admin rights, the linking step will fail.
+----------------------------------------
+Enter the ROOT path to your Cloud Sync folder (e.g., 'C:\Users\YourName\Google Drive'):
+> C:\Users\Lukáš\OneDrive 
+Target Cloud Directory set to: C:\Users\Lukáš\OneDrive
+Found existing saves at: C:\Users\Lukáš\AppData\Roaming\StardewValley\Saves
+Moving existing saves to: C:\Users\Lukáš\OneDrive\Saves
+
+Attempting to create junction with command:
+mklink /J "C:\Users\Lukáš\AppData\Roaming\StardewValley\Saves" "C:\Users\Lukáš\OneDrive\Saves"
+
+Junction created for C:\Users\Lukáš\AppData\Roaming\StardewValley\Saves <<===>> C:\Users\Lukáš\OneDrive\Saves
+✅ Success! The symbolic link has been created.
+-----------------------------------------------------
+Sync Setup Complete (PC Side).
+Remember to configure the **Two-Way Sync** on your Android/Mobile device.
+-----------------------------------------------------
