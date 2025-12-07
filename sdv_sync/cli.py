@@ -3,46 +3,53 @@
 import os
 import platform
 import sys
-from .linker import setup_windows_sync  # Import the function from linker.py
+from .linker import setup_sync
 
 def main():
     """Main function for the command-line interface."""
+    current_os = platform.system()
     
-    # 1. Platform Check (Ensure it's Windows)
-    if platform.system() != "Windows":
-        print("This utility currently only supports Windows for PC setup.")
-        print("Exiting.")
+    # 1. Platform Check
+    if current_os not in ["Windows", "Linux"]:
+        print(f"This utility currently implies support for Windows and Linux. Detected: {current_os}")
         sys.exit(1)
 
-    # 2. Check for Administrator Privileges (Crucial for mklink)
-    # This check is complex to do perfectly cross-version in Python, 
-    # but a simple subprocess check works in most modern Windows environments.
-    # We will rely on the user running with admin, and if not, the linker.py will fail and inform the user.
     print("--- Stardew Valley Sync Utility Setup ---")
-    print("⚠️ WARNING: This tool MUST be run with Administrator privileges (Right-click -> Run as administrator).")
-    print("If you proceed without admin rights, the linking step will fail.")
+    
+    # 2. Administrator Warning (Windows Only)
+    if current_os == "Windows":
+        print("⚠️ WARNING: This tool MUST be run with Administrator privileges (Right-click -> Run as administrator).")
+        print("If you proceed without admin rights, the linking step will fail.")
+    else:
+        print(f"Running on {current_os}. Ensure you have write permissions for your home directory.")
+        
     print("-" * 40)
     
     # 3. Get User Input for Cloud Path
-    
-    # Use os.path.expanduser('~') to offer a reasonable starting path
-    default_cloud_path = os.path.join(os.path.expanduser('~'), 'Google Drive') 
-    
-    cloud_path = input(f"Enter the ROOT path to your Cloud Sync folder (e.g., '{default_cloud_path}'):\n> ")
+    # Default paths suggestion
+    if current_os == "Windows":
+        default_cloud_suggestion = os.path.join(os.path.expanduser('~'), 'Google Drive')
+    else:
+        # Linux users often use generic locations or mounted drives
+        default_cloud_suggestion = os.path.expanduser('~/Dropbox')
+
+    cloud_path = input(f"Enter the ROOT path to your Cloud Sync folder (e.g., '{default_cloud_suggestion}'):\n> ")
     cloud_path = cloud_path.strip().strip('"').strip("'")
+    
+    # Handle home directory expansion (~) if user typed it
+    cloud_path = os.path.expanduser(cloud_path)
     
     if not os.path.isdir(cloud_path):
         print(f"\n❌ Error: The path '{cloud_path}' does not appear to be a valid directory.")
-        print("Please ensure the path is correct and the cloud application is running.")
         sys.exit(1)
         
     print(f"\nTarget Cloud Directory set to: {cloud_path}")
     
     # 4. Call the Core Logic
-    setup_windows_sync(cloud_path)
+    setup_sync(cloud_path)
 
     print("\n-----------------------------------------------------")
-    print("Sync Setup Complete (PC Side).")
+    print(f"Sync Setup Complete ({current_os} Side).")
     print("Remember to configure the **Two-Way Sync** on your Android/Mobile device.")
     print("-----------------------------------------------------")
 

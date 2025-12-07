@@ -34,6 +34,7 @@ setup(
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
         'Operating System :: Microsoft :: Windows',
+        'Operating System :: POSIX :: Linux',  # <--- The only new line needed
         'Topic :: Games/Entertainment',
         'Development Status :: 3 - Alpha',
     ],
