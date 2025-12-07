@@ -1,6 +1,6 @@
 # 💾 Stardew Valley Cross-Platform Sync Utility
 
-![Python Version](https://img.shields.io/badge/python-3.6+-blue.svg) 
+![Python Version](https://img.shields.io/badge/python-3.6+-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-lightgrey.svg)
 
@@ -21,7 +21,7 @@ The utility creates a **symlink bridge** between the game's default save locatio
 2.  **Create Link:** The original save location is replaced with a link that points directly to the new cloud folder.
     * **Windows:** Uses a **Directory Junction**.
     * **Linux:** Uses a standard **Symbolic Link**.
-3.  **Result:** When Stardew Valley saves a game, it writes directly to the cloud folder, which your cloud app then syncs. 
+3.  **Result:** When Stardew Valley saves a game, it writes directly to the cloud folder, which your cloud app then syncs.
 
 ### Mobile (The Manual Sync Step)
 You use a third-party mobile sync application (e.g., FolderSync or Autosync) to create a **two-way sync job** between the mobile save location (`/storage/emulated/0/StardewValley/Saves/`) and the cloud folder created by this utility.
@@ -31,6 +31,7 @@ You use a third-party mobile sync application (e.g., FolderSync or Autosync) to 
 ## ⚠️ Requirements & Critical Warnings
 
 ### Prerequisites
+
 | Requirement | Detail |
 | :--- | :--- |
 | **PC OS** | **Windows** (7, 10, 11) or **Linux** (Most distros). |
@@ -52,34 +53,34 @@ You use a third-party mobile sync application (e.g., FolderSync or Autosync) to 
 
 Install the utility globally using `pip`:
 
-```bash
+bash
 pip install stardew-sync-utility
 
-2. Run the Setup Tool
+### 2. Run the Setup Tool
 
-Windows Users: Open Command Prompt or PowerShell as Administrator. Linux Users: Open your standard terminal.
+* **Windows Users:** Open Command Prompt or PowerShell as **Administrator**.
+* **Linux Users:** Open your standard terminal.
 
 Run the following command and follow the on-screen prompts:
-Bash
 
+bash
 sdv-sync-tool
 
-You will be asked to provide the path to your cloud folder (e.g., C:\Users\Name\Google Drive or ~/Dropbox).
 📱 Mobile Setup (Android)
 
 Once the PC setup is complete, configure your Android device:
 
-    Install a sync app like Autosync or FolderSync.
+    Install App: Download a sync app like Autosync or FolderSync.
 
-    Connect it to the same cloud account used on your PC.
+    Connect: Link it to the same cloud account used on your PC.
 
-    Create a Two-Way Sync pair:
+    Create Pair: Create a Two-Way Sync pair with the following paths:
 
         Cloud Folder: The Saves folder inside your cloud drive (created by this tool).
 
         Local Device Folder: /storage/emulated/0/StardewValley/Saves/
 
-    Enable "Instant Sync" if available, or manually sync before/after playing.
+    Sync: Enable "Instant Sync" if available, or manually sync before/after playing.
 
 🤝 Contributing
 
