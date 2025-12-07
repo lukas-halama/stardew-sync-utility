@@ -63,7 +63,7 @@ pip install stardew-sync-utility
 
 Run the following command and follow the on-screen prompts:
 
-bash
+```bash
 sdv-sync-tool
 
 📱 Mobile Setup (Android)
