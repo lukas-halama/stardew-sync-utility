@@ -52,6 +52,22 @@ def create_linux_symlink(default_path, cloud_path):
         print(f"Details: {e}")
         return False
 
+def merge_directories(src, dst):
+    """Recursively merges src into dst, keeping the newest files."""
+    os.makedirs(dst, exist_ok=True)
+    for item in os.listdir(src):
+        s = os.path.join(src, item)
+        d = os.path.join(dst, item)
+        if os.path.isdir(s):
+            if not os.path.exists(d):
+                os.makedirs(d)
+            merge_directories(s, d)
+        else:
+            # Copy if destination doesn't exist, or if source is newer
+            if not os.path.exists(d) or os.path.getmtime(s) > os.path.getmtime(d):
+                shutil.copy2(s, d)
+
+
 # --- SETUP FUNCTIONS ---
 def setup_sync(cloud_directory):
     """Handles moving the old save and creating the new link for the current OS."""
@@ -73,17 +89,14 @@ def setup_sync(cloud_directory):
             return
 
         print(f"Found existing saves at: {default_path}")
-        print(f"Moving existing saves to: {cloud_saves_path}")
+        print(f"Merging existing saves to: {cloud_saves_path}")
         
         try:
-            # 2. Move the existing 'Saves' folder to the cloud location
-            # Note: If destination exists, shutil.move behaves differently depending on impl.
-            # We assume users want to merge or move to cloud.
-            if not os.path.exists(os.path.join(cloud_directory, 'Saves', 'Saves')):
-                 shutil.move(default_path, cloud_directory)
-            else:
-                 print("⚠️ Warning: 'Saves' folder already exists in cloud. Merging/Overwriting logic needed.")
-                 # For safety in this snippet, we proceed to link if the move isn't critical
+            # 2. Merge the existing 'Saves' folder into the cloud location
+            merge_directories(default_path, cloud_saves_path)
+
+            # Remove the original saves directory after successful merge
+            shutil.rmtree(default_path)
             
             # 3. Create the link
             if current_os == "Windows":
